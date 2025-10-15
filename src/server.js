@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 app.get("/api/scrape", async (req, res) => {
   const keyword = req.query.keyword || "nike";
   const includeDetails = req.query.details !== "false"; // default true
-  const maxPages = parseInt(req.query.page || "2", 10);
+  const maxPages = parseInt(req.query.page || "1", 10);
 
   console.log(`📥 Request masuk: keyword="${keyword}", details=${includeDetails}, pages=${maxPages}`);
 

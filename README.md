@@ -1,145 +1,123 @@
-# 🛒 eBay AI Scraper
+# 🛒 eBay Product Scraper API (AI + Cheerio + Gemini)
 
-A simple **Node.js + Express + Cheerio web scraper** that extracts product information from [eBay](https://www.ebay.com) search results.  
-This scraper runs **without a browser** (no Puppeteer/Playwright), making it lightweight, fast, and easy to deploy.
+API sederhana untuk melakukan **scraping produk dari eBay** dengan kombinasi:
+- **Axios + Cheerio** untuk parsing HTML
+- **Gemini API (Google AI)** untuk mengekstrak informasi produk seperti *nama, harga, dan deskripsi*
 
----
-
-## 🚀 Features
-
-- 🔎 Scrape products directly from eBay search results.
-- 📄 Supports multiple pages (`?page=3`).
-- 🧠 Extracts:
-  - Product name
-  - Price
-  - Product link
-  - Product description (from product detail page)
-  - Page number (source page of product)
-- ⚙️ Configurable via URL parameters:
-  - `keyword` — search keyword (default: `nike`)
-  - `details` — whether to include product descriptions (`true`/`false`, default: `true`)
-  - `page` — number of pages to scrape (default: `2`)
+API ini mengembalikan hasil dalam format JSON dan bisa digunakan untuk integrasi data atau riset AI extraction.
 
 ---
 
-## 🧰 Tech Stack
+## 🚀 Fitur Utama
 
-| Tool        | Description                     |
-| ----------- | ------------------------------- |
-| **Node.js** | JavaScript runtime              |
-| **Express** | Web server for API endpoint     |
-| **Axios**   | HTTP client for fetching pages  |
-| **Cheerio** | Fast HTML parser (jQuery-like)  |
-| **dotenv**  | Environment variable management |
+✅ Scrape produk eBay berdasarkan kata kunci (keyword)  
+✅ Dukungan multi halaman (pagination)  
+✅ Mendukung pengambilan deskripsi dari halaman produk  
+✅ Menggunakan AI (Gemini) untuk mengekstrak nama, harga, dan deskripsi dari HTML  
+✅ Output JSON yang rapi dan mudah diproses  
 
 ---
 
-## 📂 Project Structure
+## 🧰 Teknologi yang Digunakan
 
-```
-ebay-ai-scraper/
-│
-├── server.js              # Express server (API endpoint)
-├── scraper.js             # Main scraper logic (Axios + Cheerio)
-├── agent.js               # Optional AI parser fallback
-├── utils.js               # Helper functions (e.g. cleanText)
-├── package.json
-├── .env                   # (optional) environment config
-└── README.md              # Project documentation
-```
+| Library | Fungsi |
+|----------|--------|
+| **Express.js** | Web server REST API |
+| **Axios** | Fetch HTML dan API Gemini |
+| **Cheerio** | Parser HTML lightweight |
+| **Dotenv** | Konfigurasi environment (.env) |
+| **Gemini API (Google)** | AI extractor (membaca HTML dan mengubahnya jadi JSON) |
 
 ---
 
-## ⚙️ Installation & Running
+## ⚙️ Instalasi
 
-### 1️⃣ Clone the project
-
+### 1️⃣ Clone Repository
 ```bash
-git clone https://github.com/<your-username>/ebay-ai-scraper.git
+git clone https://github.com/yourusername/ebay-ai-scraper.git
 cd ebay-ai-scraper
 ```
 
-### 2️⃣ Install dependencies
-
+### 2️⃣ Instal Dependencies
 ```bash
 npm install
 ```
 
-### 3️⃣ Run the server
+### 3️⃣ Buat File `.env`
+Buat file `.env` berdasarkan contoh `.env.example`:
+```bash
+cp .env.example .env
+```
 
+Isi dengan konfigurasi berikut:
+```env
+GEMINI_BASE_URL=https://generativelanguage.googleapis.com/v1beta
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE
+GEMINI_MODEL=gemini-1.5-flash
+PORT=3000
+```
+
+> 💡 Kamu bisa dapatkan API Key Gemini di [https://makersuite.google.com/app/apikey](https://makersuite.google.com/app/apikey)
+
+---
+
+## ▶️ Menjalankan Server
+
+Jalankan perintah berikut untuk memulai API:
 ```bash
 npm start
 ```
 
-Server will start on:
-
-```
-http://localhost:3000
+### Hasil di terminal:
+```bash
+🚀 Server berjalan di http://localhost:3000
+📥 Request masuk: keyword="nike", details=true, pages=1
 ```
 
 ---
 
-## 🔍 API Usage
+## 🔍 Cara Menggunakan API
 
 ### Endpoint
-
 ```
 GET /api/scrape
 ```
 
 ### Query Parameters
 
-| Parameter | Type    | Default  | Description                            |
-| --------- | ------- | -------- | -------------------------------------- |
-| `keyword` | string  | `"nike"` | Search keyword                         |
-| `details` | boolean | `true`   | Whether to scrape product descriptions |
-| `page`    | integer | `2`      | Number of pages to scrape              |
+| Parameter | Default | Deskripsi |
+|------------|----------|-----------|
+| `keyword` | `nike` | Kata kunci produk yang ingin di-scrape |
+| `page` | `1` | Jumlah halaman hasil pencarian |
+| `details` | `true` | Jika `true`, ambil juga deskripsi dari halaman produk |
 
 ---
 
-### Example Requests
-
-#### ✅ Basic usage
-
+### Contoh Request
 ```
-http://localhost:3000/api/scrape?keyword=nike
+http://localhost:3000/api/scrape?keyword=nike&details=false&page=1
 ```
 
-#### ⚡ Fast mode (without product descriptions)
-
-```
-http://localhost:3000/api/scrape?keyword=nike&details=false
-```
-
-#### 📄 Scrape 3 pages
-
-```
-http://localhost:3000/api/scrape?keyword=nike&page=3
-```
-
----
-
-### Example JSON Response
-
+### Contoh Response
 ```json
 {
   "status": "success",
   "keyword": "nike",
-  "total": 25,
+  "total": 3,
   "data": [
     {
-      "name": "Nike Air Max 2017 Triple Black Mens Sneakers Size US 7-15 Casual Shoes New✅",
-      "price": "IDR1,835,002.75",
-      "link": "https://www.ebay.com/itm/224957225546?...",
-      "description": "TRIPLE BLACK COLOURWAY - PERFECT CASUAL SNEAKERS",
+      "name": "Nike Air Max 270 Men's Shoes",
+      "price": "$129.99",
+      "description": "Brand new Nike Air Max 270 with Air cushioning system",
+      "link": "https://www.ebay.com/itm/123456789",
       "page": 1
     },
     {
-      "name": "Nike Air Zoom Pegasus 39 White Blue",
-      "price": "IDR1,620,000",
-      "link": "https://www.ebay.com/itm/226076312231?...",
-      "description": "Brand new in box. Fast shipping.",
-      "page": 2
+      "name": "Nike Dunk Low Retro",
+      "price": "$99.99",
+      "description": "-",
+      "link": "https://www.ebay.com/itm/987654321",
+      "page": 1
     }
   ]
 }
@@ -147,47 +125,32 @@ http://localhost:3000/api/scrape?keyword=nike&page=3
 
 ---
 
-## 🧠 Notes & Limitations
+## ⚠️ Catatan Penting
 
-- eBay dynamically loads many products using JavaScript; since this scraper uses static HTML (`axios` + `cheerio`), it may capture **only a subset of the products** per page.
-- The scraper prioritizes **lightweight, fast requests** over complete data coverage.
-- You can adjust the `maxPages` value to scrape more pages for testing.
-- Use the `details=false` flag for faster scraping (it skips visiting each product page).
-
----
-
-## ⚡ Optimization Tips
-
-| Option                           | Description                                             |
-| -------------------------------- | ------------------------------------------------------- |
-| `details=false`                  | Skip scraping product details (10x faster)              |
-| Increase `maxPages`              | To fetch more listings                                  |
-| Add delay between pages          | Helps avoid temporary rate-limiting                     |
-| Use `.com.au` or `.co.uk` domain | Sometimes returns more complete static HTML than `.com` |
+1. **Rate Limit Gemini API** — jika muncul error `429`, tambahkan jeda (delay) antar permintaan.
+2. **Struktur HTML eBay dapat berubah** — jika hasil kosong, periksa kembali selector di `scraper.js`.
+3. **Jangan commit file `.env`** — karena berisi API key sensitif.
 
 ---
 
-## 🧾 Example Output (Terminal Log)
+## 📁 Struktur Folder
 
 ```
-📥 Request masuk: keyword="nike", details=true, pages=3
-🔍 Scraping halaman 1: https://www.ebay.com/sch/i.html?_from=R40&_nkw=nike&_sacat=0&rt=nc&_pgn=1
-✅ Halaman 1 selesai. Total produk sementara: 11
-🔍 Scraping halaman 2: https://www.ebay.com/sch/i.html?_from=R40&_nkw=nike&_sacat=0&rt=nc&_pgn=2
-⚠️ Tidak menemukan produk di halaman 2. Stop scraping.
+📦 ebay-ai-scraper
+├── agent.js        # Integrasi dan ekstraksi data dari Gemini API
+├── scraper.js      # Proses scraping eBay menggunakan Axios + Cheerio
+├── server.js       # Express server dan route API
+├── utils.js        # Helper untuk clean text, dll
+├── .env.example    # Contoh konfigurasi environment
+├── .gitignore      # File yang diabaikan oleh Git
+└── README.md       # Dokumentasi proyek
 ```
 
 ---
 
-## 👨‍💻 Author
+## 🧠 Pengembang
 
-**eBay AI Scraper Challenge**  
-Built by Emir Othman — Technical Interview Assignment  
-Email: emirothman22@gmail.com
+Dibuat oleh **[Emir Othman Jordan Bandu]**  
+Lisensi: **MIT © 2025**
 
 ---
-
-## 🏁 License
-
-This project is for **educational and interview demonstration purposes only.**  
-It is not affiliated with or endorsed by eBay Inc.

@@ -1,0 +1,29 @@
+# Node modules
+node_modules/
+
+# Environment files
+.env
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.log
+
+# Cache
+.cache/
+.tmp/
+dist/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+
+# Output or temporary data
+coverage/

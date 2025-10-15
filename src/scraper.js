@@ -6,8 +6,8 @@ import { extractProductInfo } from "./agent.js";
 const BASE_URL = "https://www.ebay.com/sch/i.html?_from=R40&_nkw=";
 
 /**
- * Scraper eBay tanpa browser (versi final)
- * ✅ Support: query ?keyword=...&details=false&page=...
+ * Scraper eBay tanpa browser
+ * ✅ Support query ?keyword=...&details=false&page=...
  * ✅ Tambahan: field "page" di hasil JSON
  */
 export async function scrapeEbay(keyword = "nike", options = { includeDetails: true, maxPages: 2 }) {
@@ -82,6 +82,7 @@ export async function scrapeEbay(keyword = "nike", options = { includeDetails: t
             if (descDiv.length > 0) {
               description = cleanText(descDiv.text());
             } else {
+              // 🔸 fallback AI ekstraksi langsung dari HTML detail
               const extracted = await extractProductInfo(detailHTML);
               description = extracted.description || "-";
             }
