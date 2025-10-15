@@ -1,8 +1,9 @@
 # 🛒 eBay Product Scraper API (AI + Cheerio + Gemini)
 
 API sederhana untuk melakukan **scraping produk dari eBay** dengan kombinasi:
+
 - **Axios + Cheerio** untuk parsing HTML
-- **Gemini API (Google AI)** untuk mengekstrak informasi produk seperti *nama, harga, dan deskripsi*
+- **Gemini API (Google AI)** untuk mengekstrak informasi produk seperti _nama, harga, dan deskripsi_
 
 API ini mengembalikan hasil dalam format JSON dan bisa digunakan untuk integrasi data atau riset AI extraction.
 
@@ -14,18 +15,18 @@ API ini mengembalikan hasil dalam format JSON dan bisa digunakan untuk integrasi
 ✅ Dukungan multi halaman (pagination)  
 ✅ Mendukung pengambilan deskripsi dari halaman produk  
 ✅ Menggunakan AI (Gemini) untuk mengekstrak nama, harga, dan deskripsi dari HTML  
-✅ Output JSON yang rapi dan mudah diproses  
+✅ Output JSON yang rapi dan mudah diproses
 
 ---
 
 ## 🧰 Teknologi yang Digunakan
 
-| Library | Fungsi |
-|----------|--------|
-| **Express.js** | Web server REST API |
-| **Axios** | Fetch HTML dan API Gemini |
-| **Cheerio** | Parser HTML lightweight |
-| **Dotenv** | Konfigurasi environment (.env) |
+| Library                 | Fungsi                                                |
+| ----------------------- | ----------------------------------------------------- |
+| **Express.js**          | Web server REST API                                   |
+| **Axios**               | Fetch HTML dan API Gemini                             |
+| **Cheerio**             | Parser HTML lightweight                               |
+| **Dotenv**              | Konfigurasi environment (.env)                        |
 | **Gemini API (Google)** | AI extractor (membaca HTML dan mengubahnya jadi JSON) |
 
 ---
@@ -33,27 +34,32 @@ API ini mengembalikan hasil dalam format JSON dan bisa digunakan untuk integrasi
 ## ⚙️ Instalasi
 
 ### 1️⃣ Clone Repository
+
 ```bash
-git clone https://github.com/yourusername/ebay-ai-scraper.git
-cd ebay-ai-scraper
+git clone https://github.com/yourusername/scrape-ebay-ai.git
+cd scrape-ebay-ai
 ```
 
 ### 2️⃣ Instal Dependencies
+
 ```bash
 npm install
 ```
 
 ### 3️⃣ Buat File `.env`
+
 Buat file `.env` berdasarkan contoh `.env.example`:
+
 ```bash
 cp .env.example .env
 ```
 
 Isi dengan konfigurasi berikut:
+
 ```env
 GEMINI_BASE_URL=https://generativelanguage.googleapis.com/v1beta
 GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE
-GEMINI_MODEL=gemini-1.5-flash
+GEMINI_MODEL=gemini-2.5-flash
 PORT=3000
 ```
 
@@ -64,11 +70,13 @@ PORT=3000
 ## ▶️ Menjalankan Server
 
 Jalankan perintah berikut untuk memulai API:
+
 ```bash
 npm start
 ```
 
 ### Hasil di terminal:
+
 ```bash
 🚀 Server berjalan di http://localhost:3000
 📥 Request masuk: keyword="nike", details=true, pages=1
@@ -79,26 +87,29 @@ npm start
 ## 🔍 Cara Menggunakan API
 
 ### Endpoint
+
 ```
 GET /api/scrape
 ```
 
 ### Query Parameters
 
-| Parameter | Default | Deskripsi |
-|------------|----------|-----------|
-| `keyword` | `nike` | Kata kunci produk yang ingin di-scrape |
-| `page` | `1` | Jumlah halaman hasil pencarian |
-| `details` | `true` | Jika `true`, ambil juga deskripsi dari halaman produk |
+| Parameter | Default | Deskripsi                                             |
+| --------- | ------- | ----------------------------------------------------- |
+| `keyword` | `nike`  | Kata kunci produk yang ingin di-scrape                |
+| `page`    | `1`     | Jumlah halaman hasil pencarian                        |
+| `details` | `true`  | Jika `true`, ambil juga deskripsi dari halaman produk |
 
 ---
 
 ### Contoh Request
+
 ```
 http://localhost:3000/api/scrape?keyword=nike&details=false&page=1
 ```
 
 ### Contoh Response
+
 ```json
 {
   "status": "success",
@@ -150,7 +161,7 @@ http://localhost:3000/api/scrape?keyword=nike&details=false&page=1
 
 ## 🧠 Pengembang
 
-Dibuat oleh **[Emir Othman Jordan Bandu]**  
+Dibuat oleh **Emir Othman Jordan Bandu**  
 Lisensi: **MIT © 2025**
 
 ---
